@@ -33,7 +33,6 @@ const Header = () => {
         </a>
       </NavMenu>
       <UserProfile src = "https://media-exp3.licdn.com/dms/image/C5603AQFl8S3jchuyoQ/profile-displayphoto-shrink_100_100/0/1565099021456?e=1628726400&v=beta&t=FhIDwfZ-bVPvzU5W88ao4GycEJJ24wN8KLfqqpmf_Ts">
-
       </UserProfile>
 
     </Nav>
@@ -48,13 +47,11 @@ const Nav = styled.nav `
   display: flex;
   align-items: center;
   padding: 0 36px;
-
-
+  overflow-x: hidden;
 `
 
 const Logo = styled.img `
   width: 80px;
-
 `
 
 const NavMenu = styled.div `
