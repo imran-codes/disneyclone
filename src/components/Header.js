@@ -1,36 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return ( 
     <Nav>
       <Logo src = "/images/logo.svg"/>
       <NavMenu>
-        <a>
+        <Link to="/">
           <img src = "/images/home-icon.svg" alt = "Home icon"></img>
           <span>HOME</span>
-        </a>
-        <a>
+        </Link>
+        <Link to="/">
           <img src = "/images/search-icon.svg" alt = "Search icon"></img>
           <span>SEARCH</span>
-        </a>
-        <a>
+        </Link>
+        <Link to="/"a>
           <img src = "/images/watchlist-icon.svg" alt = "WatchList icon"></img>
           <span>WATCHLIST</span>
-        </a>
-        <a>
+        </Link>
+        <Link to="/">
           <img src = "/images/original-icon.svg" alt = "Originals icon"></img>
           <span>ORIGINALS</span>
-        </a>
-        <a>
+        </Link>
+        <Link to="/">
           <img src = "/images/movie-icon.svg" alt = "Movie icon"></img>
           <span>MOVIES</span>
-        </a>
-        <a>
+        </Link>
+        <Link to="/">
           <img src = "/images/series-icon.svg" alt = "Series icon"></img>
           <span>SERIES</span>
-        </a>
+        </Link>
       </NavMenu>
       <UserProfile src = "https://media-exp3.licdn.com/dms/image/C5603AQFl8S3jchuyoQ/profile-displayphoto-shrink_100_100/0/1565099021456?e=1628726400&v=beta&t=FhIDwfZ-bVPvzU5W88ao4GycEJJ24wN8KLfqqpmf_Ts">
       </UserProfile>
