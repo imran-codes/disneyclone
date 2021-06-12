@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,27 +16,81 @@ const Header = () => {
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
-  //signin function
-  const signIn = () => {
-    auth.signInWithPopup(provider)
-    .then((result) => {
-      let user = result.user;
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if(user) {
         dispatch(setUserLoginDetails({
           name: user.displayName,
           email: user.email,
           photo: user.photoURL
         }))
+        history.push("/"); 
+      }
     })
-  }
+  }, [userName])
+
+  //signin function
+  // const signIn = () => {
+  //   auth.signInWithPopup(provider)
+  //   .then((result) => {
+  //     let user = result.user;
+  //       dispatch(setUserLoginDetails({
+  //         name: user.displayName,
+  //         email: user.email,
+  //         photo: user.photoURL
+  //       }))
+  //       history.push("/");
+  //   })
+  // }
+
+  // const signOut = () => {
+  //   auth.signOut()
+  //   .then(() => {
+  //     dispatch(setSignOutState);
+  //     history.push("/login");
+  //   })
+  // }
+
+  const handleAuth = () => {
+    if (!userName) {
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          setUser(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else if (userName) {
+      auth
+        .signOut()
+        .then(() => {
+          dispatch(setSignOutState());
+          history.push("/login");
+        })
+        .catch((err) => alert(err.message));
+    }
+  };
+
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
+
 
   return ( 
     <Nav>
       <Logo src = "/images/logo.svg"/>
       {!userName ? (
         <LoginContainer>
-            <Login onClick={signIn}>Login</Login>
+            <Login onClick={handleAuth}>Login</Login>
         </LoginContainer>
-      ) : (
+      ) :
         <>
               <NavMenu>
                 <Link to="/">
@@ -64,10 +118,14 @@ const Header = () => {
                   <span>SERIES</span>
                 </a>
               </NavMenu>
-              <UserProfile src = "https://media-exp3.licdn.com/dms/image/C5603AQFl8S3jchuyoQ/profile-displayphoto-shrink_100_100/0/1565099021456?e=1628726400&v=beta&t=FhIDwfZ-bVPvzU5W88ao4GycEJJ24wN8KLfqqpmf_Ts">
-              </UserProfile>
+            <SignOut>
+              <UserImg src={userPhoto} alt={userName} />
+              <DropDown>
+                <span onClick={handleAuth}>Sign out</span>
+              </DropDown>
+          </SignOut>
       </>
-      )}
+      }
     </Nav>
    );
 }
@@ -81,7 +139,7 @@ const Nav = styled.nav `
   align-items: center;
   padding: 0 36px;
   overflow-x: hidden;
-
+  z-index: 3;
 `
 
 const Logo = styled.img `
@@ -102,6 +160,7 @@ const NavMenu = styled.div `
 
     img {
       height: 20px;
+      z-index: auto;
     }
 
     span {
@@ -135,13 +194,6 @@ const NavMenu = styled.div `
   }
 `
 
-const UserProfile = styled.img `
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-`
-
 const Login = styled.div `
   border: 1px solid #f9f9f9;
   padding: 8px 16px;
@@ -165,4 +217,42 @@ const LoginContainer = styled.div `
   display: flex;
   justify-content: flex-end;
 `
+const UserImg = styled.img`
+  height: 100%;
+`;
 
+const DropDown = styled.div`
+  position: fixed;
+  top: 48px;
+  right: 15px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  ${UserImg} {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+  }
+`;
