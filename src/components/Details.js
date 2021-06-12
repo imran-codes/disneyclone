@@ -1,49 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router";
+import db from "../Firebase";
 
-const Detail = () => {
+const Details = () => {
+
+  const { id } = useParams();
+  const [movie, setMovie] = useState();
+
+  useEffect(() => {
+    //Grab the movie info from database 
+      db.collection("movies")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          //savve the movie data in the state
+          setMovie(doc.data());
+        } else {
+          console.log("no such document in firebase 🔥");
+        }
+      })
+  }, [id])
+  
   return ( 
+
+    
       <Container>
-          <Background>
-              <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = ""></img>
-          </Background>
-          <ImageTitle>
-              <img src="/images/viewers-marvel.png" alt = ""></img>
-          </ImageTitle>
-          <Controls>
-              <PlayButton>
-                  <img src="/images/play-icon-black.png" alt = ""></img>
-                  <span>PLAY</span>
-              </PlayButton>
-              <TrailerButton>
-                  <img src="/images/play-icon-white.png" alt = ""></img>
-                  <span>TRAILER</span>
-              </TrailerButton>
-              <AddButton>
-                  <span>+</span>
-              </AddButton>
-              <GroupWatchButton>
-                  <img src="/images/group-icon.png" alt = ""></img>
-              </GroupWatchButton>
-          </Controls>
-          <SubTitle>
-            gboquhbfdouewfduowhfedihweoihefoi
-          </SubTitle>
-          <Description>
-            ioehfoipwfhohoihiohiohiohiohiohiohihoihio
-          </Description>
-
+        {movie && (
+          <>
+                <Background>
+                    <img src={movie.backgroundImg} alt = ""/>
+                </Background>
+                <ImageTitle>
+                    <img src={movie.titleImg} alt = ""/>
+                </ImageTitle>
+                <Controls>
+                    <PlayButton>
+                        <img src="/images/play-icon-black.png" alt = ""/>
+                        <span>PLAY</span>
+                    </PlayButton>
+                    <TrailerButton>
+                        <img src="/images/play-icon-white.png" alt = ""/>
+                        <span>TRAILER</span>
+                    </TrailerButton>
+                    <AddButton>
+                        <span>+</span>
+                    </AddButton>
+                    <GroupWatchButton>
+                        <img src="/images/group-icon.png" alt = ""/>
+                    </GroupWatchButton>
+                </Controls>
+                <SubTitle>
+                {movie.subTitle}
+                </SubTitle>
+                <Description>
+                {movie.description}
+                </Description>
+        </>  
+        )}
       </Container>
-
+    
+    
    );
 }
  
-export default Detail;
+export default Details;
 
 const Container = styled.div `
-  min-height: calc(100vh - 70px);
-  padding: 0 calc(3.5vw + 5px);
   position: relative;
+  min-height: calc(100vh-250px);
+  overflow-x: hidden;
+  display: block;
+  top: 0px;
+  padding: 0 calc(3.5vw + 5px);
 `
 
 const Background = styled.div `
@@ -64,17 +94,21 @@ const Background = styled.div `
 `
 
 const ImageTitle = styled.div `
-  height: 30vh;
-  width: 35vw;
+  align-items: flex-end;
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  margin: 0px auto;
+  height: 30vw;
   min-height: 170px;
-  min-width: 200px;
-
-  // with all images give it a parent then insert the below
+  padding-bottom: 24px;
+  width: 100%;
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    max-width: 600px;
+    min-width: 200px;
+    width: 35vw;
   }
+
 `
 
 const Controls = styled.div `
@@ -147,4 +181,5 @@ const Description = styled.div `
   min-height: 20px;
   margin-top: 16px;
   line-height: 1.4;
+  max-width: 760px;
 `

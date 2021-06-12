@@ -1,35 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { selectMovies } from "../features/movie/movieSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Movies = () => {
+
+  const movies = useSelector(selectMovies)
+
   return ( 
       <Container>
         <h4>Recommended for You</h4>
         <Content>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
-          <Wrap>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5BB1FBFA805ACA487CA62FFB3617BE172535636042E25D21D7E274F6E6F580B6/scale?width=1200&aspectRatio=1.78&format=jpeg" alt = "Disney Viewer"></img>
-          </Wrap>
+          { movies && 
+          movies.map((movie) => (
+              <Wrap key = {movie.id}>
+                <Link to = {`/details/${movie.id}`}>
+                    <img src= {movie.cardImg} alt=""/>
+                </Link>
+              </Wrap>
+            ))
+          }
         </Content>
       </Container>
    );
@@ -38,8 +29,6 @@ const Movies = () => {
 export default Movies;
 
 const Container = styled.div `
-  
-
 
 `
 

@@ -74,7 +74,9 @@ const NavMenu = styled.div `
       font-size: 13px;
       letter-spacing: 1.42px;
       position: relative;
-
+      color: white;
+      text-decoration: none;
+      
       &:after {
         content:"";
         height: 2px;
