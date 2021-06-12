@@ -29,28 +29,6 @@ const Header = () => {
     })
   }, [userName])
 
-  //signin function
-  // const signIn = () => {
-  //   auth.signInWithPopup(provider)
-  //   .then((result) => {
-  //     let user = result.user;
-  //       dispatch(setUserLoginDetails({
-  //         name: user.displayName,
-  //         email: user.email,
-  //         photo: user.photoURL
-  //       }))
-  //       history.push("/");
-  //   })
-  // }
-
-  // const signOut = () => {
-  //   auth.signOut()
-  //   .then(() => {
-  //     dispatch(setSignOutState);
-  //     history.push("/login");
-  //   })
-  // }
-
   const handleAuth = () => {
     if (!userName) {
       auth
